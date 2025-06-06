@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimmerInterviewTask", "SimmerInterviewTask\SimmerInterviewTask.csproj", "{47A93A19-1357-4B63-87DF-E3CC1BDE6506}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simmer.Tests", "Simmer.Tests\Simmer.Tests.csproj", "{6419DE34-5F03-49E0-B65C-B19074F59920}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47A93A19-1357-4B63-87DF-E3CC1BDE6506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47A93A19-1357-4B63-87DF-E3CC1BDE6506}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47A93A19-1357-4B63-87DF-E3CC1BDE6506}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47A93A19-1357-4B63-87DF-E3CC1BDE6506}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6419DE34-5F03-49E0-B65C-B19074F59920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6419DE34-5F03-49E0-B65C-B19074F59920}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6419DE34-5F03-49E0-B65C-B19074F59920}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6419DE34-5F03-49E0-B65C-B19074F59920}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DA4A3BBA-6302-4FA3-9AB6-495C0884E6DF}
+	EndGlobalSection
+EndGlobal
