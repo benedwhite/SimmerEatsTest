@@ -15,21 +15,27 @@ internal sealed class EvenChoiceDistributorService(
         ?? throw new ArgumentNullException(nameof(evenDistributorCalculator));
 
     public IEnumerable<EntryChoice> DistributeChoicesEvenly(
-        ICollection<MenuItem> items,
+        ICollection<MenuItem> menuItems,
         int count,
         MainPortionSize portionSize)
     {
-        ArgumentNullException.ThrowIfNull(items);
+        ArgumentNullException.ThrowIfNull(menuItems);
 
-        if (items.Count == 0 || count == 0)
+        if (menuItems.Count == 0 || count == 0)
         {
             return [];
         }
 
-        int minimumNumber = _evenDistributorCalculator.CalculateMinimumNumber(count, items.Count);
-        int leftOver = _evenDistributorCalculator.CalculateLeftOver(count, minimumNumber, items.Count);
+        int minimumNumber = _evenDistributorCalculator.CalculateMinimumNumber(
+            count, 
+            menuItems.Count);
 
-        return items
+        int leftOver = _evenDistributorCalculator.CalculateLeftOver(
+            count, 
+            minimumNumber, 
+            menuItems.Count);
+
+        return menuItems
             .Select(
                 (item, index) => new EntryChoice
                 {
