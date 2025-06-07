@@ -1,9 +1,8 @@
-﻿using Simmer.Tests;
-using SimmerInterviewTask.Model;
+﻿using SimmerInterviewTask.Model;
 using SimmerInterviewTask.Shared.Services;
 using Xunit;
 
-namespace SimmerInterviewTask.Tests.Shared.Services
+namespace Simmer.Tests.Shared.Services
 {
     public class MenuItemBlockedIngredientsCheckerTests
     {
