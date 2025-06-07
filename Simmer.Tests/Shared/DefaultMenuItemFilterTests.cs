@@ -1,5 +1,5 @@
-﻿using SimmerInterviewTask.Core;
-using SimmerInterviewTask.Model;
+﻿using SimmerInterviewTask.Model;
+using SimmerInterviewTask.Shared;
 using Xunit;
 
 namespace Simmer.Tests.Shared;

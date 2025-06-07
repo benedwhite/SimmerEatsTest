@@ -1,5 +1,4 @@
-﻿using SimmerInterviewTask.Core;
-using SimmerInterviewTask.Features.Meat;
+﻿using SimmerInterviewTask.Features.Meat;
 using SimmerInterviewTask.Features.Vegan;
 using SimmerInterviewTask.Features.Vegetarian;
 using SimmerInterviewTask.Model;

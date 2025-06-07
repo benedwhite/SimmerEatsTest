@@ -1,6 +1,6 @@
 ﻿using SimmerInterviewTask.Model;
 
-namespace SimmerInterviewTask.Core;
+namespace SimmerInterviewTask.Shared;
 
 internal interface IMenuItemFilter
 {

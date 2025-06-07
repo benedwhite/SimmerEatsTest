@@ -1,8 +1,8 @@
-﻿using SimmerInterviewTask.Core;
-using SimmerInterviewTask.Features.Meat;
+﻿using SimmerInterviewTask.Features.Meat;
 using SimmerInterviewTask.Features.Vegan;
 using SimmerInterviewTask.Features.Vegetarian;
 using SimmerInterviewTask.Model;
+using SimmerInterviewTask.Shared;
 using SimmerInterviewTask.Shared.Factories;
 using Xunit;
 

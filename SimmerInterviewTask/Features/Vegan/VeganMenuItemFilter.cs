@@ -1,5 +1,5 @@
-﻿using SimmerInterviewTask.Core;
-using SimmerInterviewTask.Model;
+﻿using SimmerInterviewTask.Model;
+using SimmerInterviewTask.Shared;
 
 namespace SimmerInterviewTask.Features.Vegan;
 
