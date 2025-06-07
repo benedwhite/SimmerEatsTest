@@ -9,7 +9,11 @@ internal sealed class MeatOnlyMenuItemFilter : IMenuItemFilter
     {
         ArgumentNullException.ThrowIfNull(menuItem);
 
-        return (menuItem.IsVegetarian || menuItem.IsVegan)
-            && menuItem.Type == MenuItemType.Breakfast;
+        if (!menuItem.IsVegetarian && !menuItem.IsVegan)
+        {
+            return true;
+        }
+
+        return menuItem.Type is MenuItemType.Breakfast;
     }
 }
