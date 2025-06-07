@@ -17,7 +17,7 @@ internal sealed class DietRestrictionService(
         ?? throw new ArgumentNullException(nameof(menuItemBlockedIngredientsChecker));
 
     public bool AllowedByPreferences(
-        MenuItem menuItem, 
+        MenuItem menuItem,
         DietaryPreferences dietaryPreferences)
     {
         ArgumentNullException.ThrowIfNull(menuItem);
@@ -27,10 +27,10 @@ internal sealed class DietRestrictionService(
         IMenuItemFilter menuItemFilter = _menuItemFilterFactory.CreateFrom(diet);
 
         bool isAllowedByDiet = menuItemFilter.IsAllowed(menuItem);
-        bool itemsContainsBlockedIngredients = _menuItemBlockedIngredientsChecker.ContainsBlockedIngredients(
-            dietaryPreferences.BlockedIngredientIds, 
-            menuItem);
+        bool itemContainsBlockedIngredients = _menuItemBlockedIngredientsChecker.ContainsBlockedIngredients(
+            menuItem,
+            dietaryPreferences.BlockedIngredientIds);
 
-        return isAllowedByDiet && !itemsContainsBlockedIngredients;
+        return isAllowedByDiet && !itemContainsBlockedIngredients;
     }
 }
