@@ -24,7 +24,9 @@ internal sealed class ChoiceSuggestionService(IDietRestrictionService dietRestri
         // And tries to maintain the proportion of vegan meals that a customer has ordered in the past
 
         ICollection<MenuItem> allowedItems = [.. menuContext.MenuItems.Where(
-            menuItem => _dietRestrictionService.AllowedByPreferences(menuItem))];
+            menuItem => _dietRestrictionService.AllowedByPreferences(
+                menuItem,
+                subscriptionContext.DietPreferences))];
 
         decimal? veganRatio = subscriptionContext.RatioOfExistingChoicesThatAreVegan;
         int mainsPermitted = allocation.MainsPermitted;

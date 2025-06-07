@@ -7,44 +7,46 @@ using SimmerInterviewTask.Shared.Factories;
 using Xunit;
 
 namespace Simmer.Tests.Shared.Factories;
+
 public class MenuItemFilterFactoryTests
 {
-    private readonly MenuItemFilterFactory _sut = new();
-
     [Fact]
-    public void CreateFrom_WithVeganDiet_ReturnsVeganMenuItemFilter()
+    public void Create_WithVeganDiet_ReturnsVeganMenuItemFilter()
     {
         // Arrange
         Diet diet = Diet.Vegan;
+        MenuItemFilterFactory sut = CreateMenuItemFilterFactory(diet);
 
         // Act
-        IMenuItemFilter result = _sut.CreateFrom(diet);
+        IMenuItemFilter result = sut.Create();
 
         // Assert
         Assert.IsType<VeganMenuItemFilter>(result);
     }
 
     [Fact]
-    public void CreateFrom_WithVegetarianDiet_ReturnsVegetarianMenuItemFilter()
+    public void Create_WithVegetarianDiet_ReturnsVegetarianMenuItemFilter()
     {
         // Arrange
         Diet diet = Diet.Vegetarian;
+        MenuItemFilterFactory sut = CreateMenuItemFilterFactory(diet);
 
         // Act
-        IMenuItemFilter result = _sut.CreateFrom(diet);
+        IMenuItemFilter result = sut.Create();
 
         // Assert
         Assert.IsType<VegetarianMenuItemFilter>(result);
     }
 
     [Fact]
-    public void CreateFrom_WithMeatOnlyDiet_ReturnsMeatOnlyMenuItemFilter()
+    public void Create_WithMeatOnlyDiet_ReturnsMeatOnlyMenuItemFilter()
     {
         // Arrange
         Diet diet = Diet.MeatOnly;
+        MenuItemFilterFactory sut = CreateMenuItemFilterFactory(diet);
 
         // Act
-        IMenuItemFilter result = _sut.CreateFrom(diet);
+        IMenuItemFilter result = sut.Create();
 
         // Assert
         Assert.IsType<MeatOnlyMenuItemFilter>(result);
@@ -53,12 +55,18 @@ public class MenuItemFilterFactoryTests
     [Theory]
     [InlineData(Diet.Everything)]
     [InlineData(null)]
-    public void CreateFrom_EverythingOrNullDiet_ReturnsDefaultMenuItemFilter(Diet? diet)
+    public void Create_EverythingOrNullDiet_ReturnsDefaultMenuItemFilter(Diet? diet)
     {
+        // Arrange
+        MenuItemFilterFactory sut = CreateMenuItemFilterFactory(diet);
+
         // Act
-        IMenuItemFilter result = _sut.CreateFrom(diet);
+        IMenuItemFilter result = sut.Create();
 
         // Assert
         Assert.IsType<DefaultMenuItemFilter>(result);
     }
+
+    private static MenuItemFilterFactory CreateMenuItemFilterFactory(Diet? diet)
+        => new(diet);
 }
