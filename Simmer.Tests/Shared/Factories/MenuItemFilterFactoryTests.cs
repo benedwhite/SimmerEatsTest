@@ -15,10 +15,10 @@ public class MenuItemFilterFactoryTests
     {
         // Arrange
         Diet diet = Diet.Vegan;
-        MenuItemFilterFactory sut = CreateMenuItemFilterFactory(diet);
+        MenuItemFilterFactory sut = CreateMenuItemFilterFactory();
 
         // Act
-        IMenuItemFilter result = sut.Create();
+        IMenuItemFilter result = sut.CreateFrom(diet);
 
         // Assert
         Assert.IsType<VeganMenuItemFilter>(result);
@@ -29,10 +29,10 @@ public class MenuItemFilterFactoryTests
     {
         // Arrange
         Diet diet = Diet.Vegetarian;
-        MenuItemFilterFactory sut = CreateMenuItemFilterFactory(diet);
+        MenuItemFilterFactory sut = CreateMenuItemFilterFactory();
 
         // Act
-        IMenuItemFilter result = sut.Create();
+        IMenuItemFilter result = sut.CreateFrom(diet);
 
         // Assert
         Assert.IsType<VegetarianMenuItemFilter>(result);
@@ -43,10 +43,10 @@ public class MenuItemFilterFactoryTests
     {
         // Arrange
         Diet diet = Diet.MeatOnly;
-        MenuItemFilterFactory sut = CreateMenuItemFilterFactory(diet);
+        MenuItemFilterFactory sut = CreateMenuItemFilterFactory();
 
         // Act
-        IMenuItemFilter result = sut.Create();
+        IMenuItemFilter result = sut.CreateFrom(diet);
 
         // Assert
         Assert.IsType<MeatOnlyMenuItemFilter>(result);
@@ -58,15 +58,14 @@ public class MenuItemFilterFactoryTests
     public void Create_EverythingOrNullDiet_ReturnsDefaultMenuItemFilter(Diet? diet)
     {
         // Arrange
-        MenuItemFilterFactory sut = CreateMenuItemFilterFactory(diet);
+        MenuItemFilterFactory sut = CreateMenuItemFilterFactory();
 
         // Act
-        IMenuItemFilter result = sut.Create();
+        IMenuItemFilter result = sut.CreateFrom(diet);
 
         // Assert
         Assert.IsType<DefaultMenuItemFilter>(result);
     }
 
-    private static MenuItemFilterFactory CreateMenuItemFilterFactory(Diet? diet)
-        => new(diet);
+    private static MenuItemFilterFactory CreateMenuItemFilterFactory() => new();
 }

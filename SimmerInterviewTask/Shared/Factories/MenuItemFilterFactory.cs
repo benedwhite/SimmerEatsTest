@@ -2,12 +2,13 @@
 using SimmerInterviewTask.Features.Vegan;
 using SimmerInterviewTask.Features.Vegetarian;
 using SimmerInterviewTask.Model;
+using SimmerInterviewTask.Shared.Factories.Abstractions;
 
 namespace SimmerInterviewTask.Shared.Factories;
 
-internal sealed class MenuItemFilterFactory(Diet? diet) : IFactory<IMenuItemFilter>
+internal sealed class MenuItemFilterFactory : IMenuItemFilterFactory
 {
-    public IMenuItemFilter Create()
+    public IMenuItemFilter CreateFrom(Diet? diet)
         => diet switch
         {
             Diet.Vegan => new VeganMenuItemFilter(),
