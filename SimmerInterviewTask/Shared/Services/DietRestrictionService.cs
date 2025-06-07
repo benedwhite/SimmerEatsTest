@@ -1,20 +1,19 @@
 ﻿using SimmerInterviewTask.Model;
 using SimmerInterviewTask.Shared.Factories;
 using SimmerInterviewTask.Shared.Services.Abstractions;
-using static SimmerInterviewTask.Model.SubscriptionContext;
 
 namespace SimmerInterviewTask.Shared.Services;
 
 internal sealed class DietRestrictionService(
-    DietaryPreferences dietaryPreferences,
-    IMenuItemFilterFactory dietMenuItemStrategyFactory,
+    ICollection<int> blockedIngredientIds,
+    IFactory<IMenuItemFilter> dietMenuItemStrategyFactory,
     IMenuItemBlockedIngredientsChecker menuItemBlockedIngredientsChecker)
     : IDietRestrictionService
 {
-    private readonly DietaryPreferences _dietaryPreferences = dietaryPreferences
-        ?? throw new ArgumentNullException(nameof(dietaryPreferences));
+    private readonly ICollection<int> _blockedIngredientIds = blockedIngredientIds
+        ?? throw new ArgumentNullException(nameof(blockedIngredientIds));
 
-    private readonly IMenuItemFilterFactory _dietMenuItemStrategyFactory = dietMenuItemStrategyFactory
+    private readonly IFactory<IMenuItemFilter> _dietMenuItemStrategyFactory = dietMenuItemStrategyFactory
         ?? throw new ArgumentNullException(nameof(dietMenuItemStrategyFactory));
 
     private readonly IMenuItemBlockedIngredientsChecker _menuItemBlockedIngredientsChecker = menuItemBlockedIngredientsChecker
@@ -24,12 +23,11 @@ internal sealed class DietRestrictionService(
     {
         ArgumentNullException.ThrowIfNull(menuItem);
 
-        Diet? diet = _dietaryPreferences.Diet;
-        IMenuItemFilter menuItemFilter = _dietMenuItemStrategyFactory.CreateFrom(diet);
+        IMenuItemFilter menuItemFilter = _dietMenuItemStrategyFactory.Create();
 
         bool isAllowedByDiet = menuItemFilter.IsAllowed(menuItem);
         bool itemsContainsBlockedIngredients = _menuItemBlockedIngredientsChecker.ContainsBlockedIngredients(
-            _dietaryPreferences.BlockedIngredientIds, 
+            _blockedIngredientIds,
             menuItem);
 
         return isAllowedByDiet && !itemsContainsBlockedIngredients;

@@ -5,9 +5,9 @@ using SimmerInterviewTask.Model;
 
 namespace SimmerInterviewTask.Shared.Factories;
 
-internal sealed class MenuItemFilterFactory : IMenuItemFilterFactory
+internal sealed class MenuItemFilterFactory(Diet? diet) : IFactory<IMenuItemFilter>
 {
-    public IMenuItemFilter CreateFrom(Diet? diet)
+    public IMenuItemFilter Create()
         => diet switch
         {
             Diet.Vegan => new VeganMenuItemFilter(),
