@@ -5,7 +5,7 @@ namespace SimmerInterviewTask.Shared.Services;
 
 internal sealed class MenuItemBlockedIngredientsChecker : IMenuItemBlockedIngredientsChecker
 {
-    public bool MenuItemContainsBlockedIngredients(
+    public bool ContainsBlockedIngredients(
         ICollection<int> blockedIngredientIds,
         MenuItem item)
     {

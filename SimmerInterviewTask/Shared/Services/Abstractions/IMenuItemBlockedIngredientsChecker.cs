@@ -4,7 +4,7 @@ namespace SimmerInterviewTask.Shared.Services.Abstractions;
 
 internal interface IMenuItemBlockedIngredientsChecker
 {
-    bool MenuItemContainsBlockedIngredients(
+    bool ContainsBlockedIngredients(
         ICollection<int> blockedIngredientIds, 
         MenuItem item);
 }
