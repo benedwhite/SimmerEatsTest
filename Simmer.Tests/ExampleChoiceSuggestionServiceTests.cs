@@ -18,40 +18,14 @@ namespace Simmer.Tests
             bool isVegetarian)
         {
             // Arrange
-            MenuItem menuItem = new()
-            {
-                Id = 1,
-                IsVegan = isVegan,
-                IsVegetarian = isVegetarian,
-                Type = MenuItemType.Breakfast,
-                IngredientIds = [1, 2, 3]
-            };
-
-            SubscriptionContext.DietaryPreferences dietaryPreferences = new()
-            {
-                Diet = Diet.MeatOnly,
-                BlockedIngredientIds = []
-            };
-
-            MenuContext menuContext = new()
-            {
-                MenuItems = [menuItem],
-                RecommendedMenuItemIds = [menuItem.Id]
-            };
-
-            SubscriptionContext subscriptionContext = new()
-            {
-                LatestReviews = [],
-                DietPreferences = dietaryPreferences,
-                PreviouslyOrderedMenuItems = []
-            };
-
-            ChoiceAllocation choiceAllocation = new()
-            {
-                MainsPermitted = 1,
-                BreakfastsPermitted = 1,
-                MainPortionSize = MainPortionSize.Standard
-            };
+            SubscriptionContext.DietaryPreferences dietaryPreferences = TestDataHelper.CreateDietaryPreferences(
+                diet: Diet.Everything);
+            SubscriptionContext subscriptionContext = TestDataHelper.CreateSubscriptionContext(dietaryPreferences);
+            MenuItem menuItem = TestDataHelper.CreateMenuItem(
+                isVegan: isVegan,
+                isVegetarian: isVegetarian);
+            MenuContext menuContext = TestDataHelper.CreateMenuContext(menuItem);
+            ChoiceAllocation choiceAllocation = TestDataHelper.CreateChoiceAllocation();
 
             // Act
             ICollection<EntryChoice> result = _sut.SuggestChoicesFor(
