@@ -1,6 +1,6 @@
 ﻿using SimmerInterviewTask.Model;
 
-namespace SimmerInterviewTask.Service;
+namespace SimmerInterviewTask.Services;
 
 
 public interface IChoiceSuggestionService

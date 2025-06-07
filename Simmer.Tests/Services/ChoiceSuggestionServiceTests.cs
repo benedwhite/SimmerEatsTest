@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Simmer.Tests
+namespace Simmer.Tests.Services
 {
     public sealed class ChoiceSuggestionServiceTests
     {

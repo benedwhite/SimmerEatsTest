@@ -1,7 +1,6 @@
-
 using SimmerInterviewTask.Model;
 
-namespace SimmerInterviewTask.Service;
+namespace SimmerInterviewTask.Services;
 
 public class ExampleChoiceSuggestionService : IChoiceSuggestionService
 {
@@ -88,7 +87,7 @@ public class ExampleChoiceSuggestionService : IChoiceSuggestionService
 
         // this splits the count as evenly as possible across the allowed items
         var minimumNumber = count / items.Count;
-        var leftOver = count - (minimumNumber * items.Count);
+        var leftOver = count - minimumNumber * items.Count;
         
         var choices = items
             .Select(

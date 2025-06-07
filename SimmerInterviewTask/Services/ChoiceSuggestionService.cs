@@ -1,7 +1,7 @@
 ﻿using SimmerInterviewTask.Model;
-using SimmerInterviewTask.Shared.Services;
+using SimmerInterviewTask.Shared.Services.Abstractions;
 
-namespace SimmerInterviewTask.Service;
+namespace SimmerInterviewTask.Services;
 
 internal sealed class ChoiceSuggestionService(IDietRestrictionService dietRestrictionService) : IChoiceSuggestionService
 {
@@ -23,9 +23,13 @@ internal sealed class ChoiceSuggestionService(IDietRestrictionService dietRestri
         // It just limits the menu to what items a customer is allowed
         // And tries to maintain the proportion of vegan meals that a customer has ordered in the past
 
-        var allowedItems = menuContext.MenuItems
-            .Where(menuItem => _dietRestrictionService.AllowedByPreferences(menuItem))
-            .ToList();
+        ICollection<MenuItem> allowedItems = [.. menuContext.MenuItems.Where(
+            menuItem => _dietRestrictionService.AllowedByPreferences(menuItem))];
+
+        decimal? veganRatio = subscriptionContext.RatioOfExistingChoicesThatAreVegan;
+        int mainsPermitted = allocation.MainsPermitted;
+        int breakfastsPermitted = allocation.BreakfastsPermitted;
+        MainPortionSize portionSize = allocation.MainPortionSize;
 
         return [];
     }

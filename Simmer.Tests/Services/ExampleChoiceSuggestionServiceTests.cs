@@ -1,8 +1,8 @@
 ﻿using SimmerInterviewTask.Model;
-using SimmerInterviewTask.Service;
+using SimmerInterviewTask.Services;
 using Xunit;
 
-namespace Simmer.Tests
+namespace Simmer.Tests.Services
 {
     public sealed class ExampleChoiceSuggestionServiceTests
     {
