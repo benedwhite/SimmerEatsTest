@@ -2,7 +2,7 @@
 using SimmerInterviewTask.Model;
 using Xunit;
 
-namespace Simmer.Tests.Features.Vegan;
+namespace Simmer.Tests.Features.Vegetarian;
 
 public class VegetarianMenuItemFilterTests
 {
