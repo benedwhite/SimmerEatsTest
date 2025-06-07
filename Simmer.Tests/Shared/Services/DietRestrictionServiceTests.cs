@@ -7,20 +7,20 @@ namespace Simmer.Tests.Shared.Services;
 
 public class DietRestrictionServiceTests
 {
-    /**
-     * Due to time constraints, I have included a simple test case below.
-     * However, I have tested the individual filter strategies in their respective test files.
-     */
-
     [Fact]
-    public void AllowedByPreferences_()
+    public void AllowedByPreferences_ReturnsTrue_WhenDietIsEverythingAndNoBlockedIngredients()
     {
         // Arrange
-        SubscriptionContext subscriptionContext = TestDataHelper.CreateSubscriptionContext();
-        IMenuItemFilterFactory menuItemFilterFactory = new MenuItemFilterFactory();
+        SubscriptionContext.DietaryPreferences dietaryPreferences = TestDataHelper.CreateDietaryPreferences(
+            Diet.Everything,
+            blockedIngredientIds: []);
+        SubscriptionContext subscriptionContext = TestDataHelper.CreateSubscriptionContext(dietaryPreferences);
         MenuItem menuItem = TestDataHelper.CreateMenuItem();
 
-        DietRestrictionService sut = new(subscriptionContext, menuItemFilterFactory);
+        DietRestrictionService sut = new(
+            subscriptionContext.DietPreferences,
+            CreateMenuItemFilterFactory(),
+            CreateMenuItemBlockedIngredientsChecker());
 
         // Act
         bool result = sut.AllowedByPreferences(menuItem);
@@ -28,4 +28,74 @@ public class DietRestrictionServiceTests
         // Assert
         Assert.True(result);
     }
+
+    [Fact]
+    public void AllowedByPreferences_ReturnsFalse_WhenDietIsMeatOnlyAndMenuItemIsVegan()
+    {
+        // Arrange
+        SubscriptionContext.DietaryPreferences dietaryPreferences = TestDataHelper.CreateDietaryPreferences(
+            Diet.MeatOnly,
+            blockedIngredientIds: []);
+        SubscriptionContext subscriptionContext = TestDataHelper.CreateSubscriptionContext(dietaryPreferences);
+        MenuItem menuItem = TestDataHelper.CreateMenuItem(isVegan: true);
+
+        DietRestrictionService sut = new(
+            subscriptionContext.DietPreferences,
+            CreateMenuItemFilterFactory(),
+            CreateMenuItemBlockedIngredientsChecker());
+
+        // Act
+        bool result = sut.AllowedByPreferences(menuItem);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void AllowedByPreferences_ReturnsFalse_WhenDietIsEverythingAndContainsBlockedIngredients()
+    {
+        // Arrange
+        SubscriptionContext.DietaryPreferences dietaryPreferences = TestDataHelper.CreateDietaryPreferences(
+            Diet.Everything,
+            blockedIngredientIds: [1]);
+        SubscriptionContext subscriptionContext = TestDataHelper.CreateSubscriptionContext(dietaryPreferences);
+        MenuItem menuItem = TestDataHelper.CreateMenuItem(ingredientIds: [1]);
+
+        DietRestrictionService sut = new(
+            subscriptionContext.DietPreferences,
+            CreateMenuItemFilterFactory(),
+            CreateMenuItemBlockedIngredientsChecker());
+
+        // Act
+        bool result = sut.AllowedByPreferences(menuItem);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void AllowedByPreferences_ReturnsTrue_WhenDietIsEverythingAndDoesNotContainBlockedIngredients()
+    {
+        // Arrange
+        SubscriptionContext.DietaryPreferences dietaryPreferences = TestDataHelper.CreateDietaryPreferences(
+            Diet.Everything,
+            blockedIngredientIds: [1]);
+        SubscriptionContext subscriptionContext = TestDataHelper.CreateSubscriptionContext(dietaryPreferences);
+        MenuItem menuItem = TestDataHelper.CreateMenuItem(ingredientIds: [2]);
+
+        DietRestrictionService sut = new(
+            subscriptionContext.DietPreferences,
+            CreateMenuItemFilterFactory(),
+            CreateMenuItemBlockedIngredientsChecker());
+
+        // Act
+        bool result = sut.AllowedByPreferences(menuItem);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    private static MenuItemFilterFactory CreateMenuItemFilterFactory() => new();
+
+    private static MenuItemBlockedIngredientsChecker CreateMenuItemBlockedIngredientsChecker() => new();
 }
