@@ -9,20 +9,6 @@ namespace Simmer.Tests.Shared.Services;
 public class DietRestrictionServiceTests
 {
     [Fact]
-    public void Constructor_ShouldThrowArgumentNullException_GivenNullDietPreferences()
-    {
-        // Arrange
-        DietaryPreferences dietaryPreferences = null!;
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            new DietRestrictionService(
-                dietaryPreferences,
-                CreateMenuItemFilterFactory(),
-                CreateMenuItemBlockedIngredientsChecker()));
-    }
-
-    [Fact]
     public void Constructor_ShouldThrowArgumentNullException_GivenNullMenuItemFilterFactory()
     {
         // Arrange
@@ -31,7 +17,6 @@ public class DietRestrictionServiceTests
         // Act & Assert
         Assert.Throws<ArgumentNullException>(() =>
             new DietRestrictionService(
-                TestDataHelper.CreateDietaryPreferences(),
                 menuItemFilterFactory,
                 CreateMenuItemBlockedIngredientsChecker()));
     }
@@ -45,7 +30,6 @@ public class DietRestrictionServiceTests
         // Act & Assert
         Assert.Throws<ArgumentNullException>(() =>
             new DietRestrictionService(
-                TestDataHelper.CreateDietaryPreferences(),
                 CreateMenuItemFilterFactory(),
                 menuItemBlockedIngredientsChecker));
     }
@@ -55,13 +39,25 @@ public class DietRestrictionServiceTests
     {
         // Arrange
         MenuItem menuItem = null!;
-        DietRestrictionService sut = new(
-            TestDataHelper.CreateDietaryPreferences(),
-            CreateMenuItemFilterFactory(),
-            CreateMenuItemBlockedIngredientsChecker());
+        DietRestrictionService sut = CreateDietRestrictionService();
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => sut.AllowedByPreferences(menuItem));
+        Assert.Throws<ArgumentNullException>(() => sut.AllowedByPreferences(
+            menuItem,
+            TestDataHelper.CreateDietaryPreferences()));
+    }
+
+    [Fact]
+    public void AllowedByPreferences_ShouldThrowArgumentNullException_GivenNullDietaryPreferences()
+    {
+        // Arrange
+        DietaryPreferences dietaryPreferences = null!;
+        DietRestrictionService sut = CreateDietRestrictionService();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => sut.AllowedByPreferences(
+            TestDataHelper.CreateMenuItem(),
+            dietaryPreferences));
     }
 
     [Fact]
@@ -72,14 +68,10 @@ public class DietRestrictionServiceTests
             Diet.Everything,
             blockedIngredientIds: []);
         MenuItem menuItem = TestDataHelper.CreateMenuItem();
-
-        DietRestrictionService sut = new(
-            dietaryPreferences,
-            CreateMenuItemFilterFactory(),
-            CreateMenuItemBlockedIngredientsChecker());
+        DietRestrictionService sut = CreateDietRestrictionService();
 
         // Act
-        bool result = sut.AllowedByPreferences(menuItem);
+        bool result = sut.AllowedByPreferences(menuItem, dietaryPreferences);
 
         // Assert
         Assert.True(result);
@@ -93,14 +85,10 @@ public class DietRestrictionServiceTests
             Diet.MeatOnly,
             blockedIngredientIds: []);
         MenuItem menuItem = TestDataHelper.CreateMenuItem(isVegan: true);
-
-        DietRestrictionService sut = new(
-            dietaryPreferences,
-            CreateMenuItemFilterFactory(),
-            CreateMenuItemBlockedIngredientsChecker());
+        DietRestrictionService sut = CreateDietRestrictionService();
 
         // Act
-        bool result = sut.AllowedByPreferences(menuItem);
+        bool result = sut.AllowedByPreferences(menuItem, dietaryPreferences);
 
         // Assert
         Assert.False(result);
@@ -114,14 +102,10 @@ public class DietRestrictionServiceTests
             Diet.Everything,
             blockedIngredientIds: [1]);
         MenuItem menuItem = TestDataHelper.CreateMenuItem(ingredientIds: [1]);
-
-        DietRestrictionService sut = new(
-            dietaryPreferences,
-            CreateMenuItemFilterFactory(),
-            CreateMenuItemBlockedIngredientsChecker());
+        DietRestrictionService sut = CreateDietRestrictionService();
 
         // Act
-        bool result = sut.AllowedByPreferences(menuItem);
+        bool result = sut.AllowedByPreferences(menuItem, dietaryPreferences);
 
         // Assert
         Assert.False(result);
@@ -135,18 +119,18 @@ public class DietRestrictionServiceTests
             Diet.Everything,
             blockedIngredientIds: [1]);
         MenuItem menuItem = TestDataHelper.CreateMenuItem(ingredientIds: [2]);
-
-        DietRestrictionService sut = new(
-            dietaryPreferences,
-            CreateMenuItemFilterFactory(),
-            CreateMenuItemBlockedIngredientsChecker());
+        DietRestrictionService sut = CreateDietRestrictionService();
 
         // Act
-        bool result = sut.AllowedByPreferences(menuItem);
+        bool result = sut.AllowedByPreferences(menuItem, dietaryPreferences);
 
         // Assert
         Assert.True(result);
     }
+
+    private static DietRestrictionService CreateDietRestrictionService() => new(
+        CreateMenuItemFilterFactory(),
+        CreateMenuItemBlockedIngredientsChecker());
 
     private static MenuItemFilterFactory CreateMenuItemFilterFactory() => new();
 
