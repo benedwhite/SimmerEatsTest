@@ -4,5 +4,5 @@ namespace SimmerInterviewTask.Shared.Factories;
 
 internal interface IMenuItemFilterFactory
 {
-    IMenuItemFilter CreateFor(Diet? diet);
+    IMenuItemFilter CreateFrom(Diet? diet);
 }

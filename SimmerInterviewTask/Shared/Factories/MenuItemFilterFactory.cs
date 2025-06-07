@@ -7,7 +7,7 @@ namespace SimmerInterviewTask.Shared.Factories;
 
 internal sealed class MenuItemFilterFactory : IMenuItemFilterFactory
 {
-    public IMenuItemFilter CreateFor(Diet? diet)
+    public IMenuItemFilter CreateFrom(Diet? diet)
         => diet switch
         {
             Diet.Vegan => new VeganMenuItemFilter(),

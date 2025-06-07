@@ -25,7 +25,7 @@ internal sealed class DietRestrictionService(
         ArgumentNullException.ThrowIfNull(menuItem);
 
         Diet? diet = _dietaryPreferences.Diet;
-        IMenuItemFilter menuItemFilter = _dietMenuItemStrategyFactory.CreateFor(diet);
+        IMenuItemFilter menuItemFilter = _dietMenuItemStrategyFactory.CreateFrom(diet);
 
         bool isAllowedByDiet = menuItemFilter.IsAllowed(menuItem);
         bool itemsContainsBlockedIngredients = _menuItemBlockedIngredientsChecker.ContainsBlockedIngredients(
