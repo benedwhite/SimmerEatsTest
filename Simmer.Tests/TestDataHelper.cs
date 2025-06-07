@@ -33,23 +33,27 @@ internal static class TestDataHelper
         };
     }
 
-    internal static MenuContext CreateMenuContext(MenuItem menuItem)
+    internal static MenuContext CreateMenuContext(
+        ICollection<MenuItem> menuItems,
+        ICollection<int> recommendedMenuItemIds)
     {
         return new MenuContext
         {
-            MenuItems = [menuItem],
-            RecommendedMenuItemIds = [menuItem.Id]
+            MenuItems = menuItems ?? [],
+            RecommendedMenuItemIds = recommendedMenuItemIds ?? []
         };
     }
 
     internal static SubscriptionContext CreateSubscriptionContext(
-        SubscriptionContext.DietaryPreferences? dietaryPreferences = null)
+        SubscriptionContext.DietaryPreferences? dietaryPreferences = null,
+        decimal? veganRatio = null)
     {
         return new SubscriptionContext
         {
             LatestReviews = [],
             DietPreferences = dietaryPreferences ?? CreateDietaryPreferences(),
-            PreviouslyOrderedMenuItems = []
+            PreviouslyOrderedMenuItems = [],
+            RatioOfExistingChoicesThatAreVegan = veganRatio
         };
     }
 

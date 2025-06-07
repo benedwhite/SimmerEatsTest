@@ -24,7 +24,9 @@ namespace Simmer.Tests.Services
             MenuItem menuItem = TestDataHelper.CreateMenuItem(
                 isVegan: isVegan,
                 isVegetarian: isVegetarian);
-            MenuContext menuContext = TestDataHelper.CreateMenuContext(menuItem);
+            MenuContext menuContext = TestDataHelper.CreateMenuContext(
+                [menuItem], 
+                []);
             ChoiceAllocation choiceAllocation = TestDataHelper.CreateChoiceAllocation();
 
             // Act

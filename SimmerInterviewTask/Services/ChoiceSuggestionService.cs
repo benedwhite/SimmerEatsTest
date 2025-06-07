@@ -1,38 +1,55 @@
 ﻿using SimmerInterviewTask.Model;
+using SimmerInterviewTask.Shared.Factories.Abstractions;
 using SimmerInterviewTask.Shared.Services.Abstractions;
 
 namespace SimmerInterviewTask.Services;
 
-internal sealed class ChoiceSuggestionService(IDietRestrictionService dietRestrictionService) : IChoiceSuggestionService
+internal sealed class ChoiceSuggestionService(
+    IDietRestrictionService dietRestrictionService,
+    IEntryChoicePickerFactory entryChoicePickerFactory,
+    IMenuItemTypeCountService menuItemTypeCountProvider,
+    IEnumerable<MenuItemType> menuItemTypes) : IChoiceSuggestionService
 {
     private readonly IDietRestrictionService _dietRestrictionService = dietRestrictionService
         ?? throw new ArgumentNullException(nameof(dietRestrictionService));
 
+    private readonly IEntryChoicePickerFactory _entryChoicePickerFactory = entryChoicePickerFactory
+        ?? throw new ArgumentNullException(nameof(entryChoicePickerFactory));
+
+    private readonly IMenuItemTypeCountService _menuItemTypeCountProvider = menuItemTypeCountProvider
+        ?? throw new ArgumentNullException(nameof(menuItemTypeCountProvider));
+
+    private readonly IEnumerable<MenuItemType> _menuItemTypes = menuItemTypes
+        ?? throw new ArgumentNullException(nameof(menuItemTypes));
+
     public ICollection<EntryChoice> SuggestChoicesFor(
-        SubscriptionContext subscriptionContext, 
-        MenuContext menuContext, 
+        SubscriptionContext subscriptionContext,
+        MenuContext menuContext,
         ChoiceAllocation allocation)
     {
-        // todo: implement this method anyway you see fit
-        // Feel free to lean on the Example as a base which can be refactored and improved upon.
+        ArgumentNullException.ThrowIfNull(subscriptionContext);
+        ArgumentNullException.ThrowIfNull(menuContext);
+        ArgumentNullException.ThrowIfNull(allocation);
 
-        // The objective is to produce a list of choices that the customer is likely to be happy with
-        // The SubscriptionContext contains information on reviews a customer has left, items they have ordered in the past
-
-        // The example suggestion service ignores most of that data.
-        // It just limits the menu to what items a customer is allowed
-        // And tries to maintain the proportion of vegan meals that a customer has ordered in the past
-
-        ICollection<MenuItem> allowedItems = [.. menuContext.MenuItems.Where(
+        ICollection<MenuItem> itemsMatchingDiet = [.. menuContext.MenuItems.Where(
             menuItem => _dietRestrictionService.AllowedByPreferences(
                 menuItem,
                 subscriptionContext.DietPreferences))];
 
         decimal? veganRatio = subscriptionContext.RatioOfExistingChoicesThatAreVegan;
-        int mainsPermitted = allocation.MainsPermitted;
-        int breakfastsPermitted = allocation.BreakfastsPermitted;
-        MainPortionSize portionSize = allocation.MainPortionSize;
 
-        return [];
+        IEntryChoicePicker choicePicker = _entryChoicePickerFactory.CreateFrom(veganRatio);
+
+        return [..
+            _menuItemTypes
+                .Select(menuItemType => new MenuItemTypeWithCount(
+                    menuItemType, 
+                    PermittedCount: _menuItemTypeCountProvider.GetPermittedCount(menuItemType, allocation)))
+                .Where(menuItemTypeWithCount => menuItemTypeWithCount.PermittedCount > 0)
+                .SelectMany(menuItemTypeWithCount =>
+                    choicePicker.GetChoicesFrom(
+                        itemsMatchingDiet,
+                        menuItemTypeWithCount.PermittedCount,
+                        allocation.MainPortionSize))];
     }
 }

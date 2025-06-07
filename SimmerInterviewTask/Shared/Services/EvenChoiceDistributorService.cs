@@ -27,12 +27,12 @@ internal sealed class EvenChoiceDistributorService(
         }
 
         int minimumNumber = _evenDistributorCalculator.CalculateMinimumNumber(
-            count, 
+            count,
             menuItems.Count);
 
         int leftOver = _evenDistributorCalculator.CalculateLeftOver(
-            count, 
-            minimumNumber, 
+            count,
+            minimumNumber,
             menuItems.Count);
 
         return menuItems
