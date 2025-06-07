@@ -1,6 +1,6 @@
 ﻿using SimmerInterviewTask.Model;
 
-namespace SimmerInterviewTask.Shared.Services;
+namespace SimmerInterviewTask.Shared.Services.Abstractions;
 
 internal interface IDietRestrictionService
 {

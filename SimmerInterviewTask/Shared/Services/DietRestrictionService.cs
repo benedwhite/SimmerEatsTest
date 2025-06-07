@@ -1,5 +1,6 @@
 ﻿using SimmerInterviewTask.Model;
 using SimmerInterviewTask.Shared.Factories;
+using SimmerInterviewTask.Shared.Services.Abstractions;
 
 namespace SimmerInterviewTask.Shared.Services;
 
