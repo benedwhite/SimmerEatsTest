@@ -46,7 +46,7 @@ public class MeatOnlyMenuItemFilterTests
         MenuItem menuItem = TestDataHelper.CreateMenuItem(
             isVegan: isVegan,
             isVegetarian: isVegetarian,
-            type: MenuItemType.Main
+            menuItemType: MenuItemType.Main
         );
 
         // Act
@@ -69,7 +69,7 @@ public class MeatOnlyMenuItemFilterTests
         MenuItem menuItem = TestDataHelper.CreateMenuItem(
             isVegan: isVegan,
             isVegetarian: isVegetarian,
-            type: MenuItemType.Breakfast
+            menuItemType: MenuItemType.Breakfast
         );
 
         // Act

@@ -9,7 +9,7 @@ internal static class TestDataHelper
         int id = 1,
         bool isVegan = false,
         bool isVegetarian = false,
-        MenuItemType type = MenuItemType.Main,
+        MenuItemType menuItemType = MenuItemType.Main,
         IEnumerable<int>? ingredientIds = null)
     {
         return new MenuItem
@@ -17,7 +17,7 @@ internal static class TestDataHelper
             Id = id,
             IsVegan = isVegan,
             IsVegetarian = isVegetarian,
-            Type = type,
+            Type = menuItemType,
             IngredientIds = ingredientIds?.ToList() ?? [1, 2, 3]
         };
     }
